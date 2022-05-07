@@ -22,7 +22,7 @@ interface ToDoDao {
      suspend fun deleteTask(toDoTask: ToDoTask)
 
      @Query("DELETE FROM todo_table")
-     suspend fun deleteAll()
+     suspend fun deleteAllTasks()
 
      @Query("SELECT * FROM todo_table WHERE title LIKE :searchQuery")
      fun searchDatabase(searchQuery : String) : Flow<List<ToDoTask>>
