@@ -5,8 +5,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.jetpack.todo.ui.screens.list.ListScreen
 import com.jetpack.todo.util.Constance.LIST_SCREEN
 import com.jetpack.todo.util.Constance.List_ARGUMENT_KEY
+import com.jetpack.todo.util.Constance.TASK_SCREEN
 
 fun NavGraphBuilder.listComposable(
     navigateToTaskScreen : (Int) -> Unit
@@ -17,6 +19,6 @@ fun NavGraphBuilder.listComposable(
             type = NavType.StringType
         })
     ){
-
+            ListScreen(navigateToTaskScreen = navigateToTaskScreen)
     }
 }
