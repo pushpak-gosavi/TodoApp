@@ -10,7 +10,7 @@ import com.jetpack.todo.util.Constance.LIST_SCREEN
 import com.jetpack.todo.util.Constance.List_ARGUMENT_KEY
 
 fun NavGraphBuilder.listComposable(
-    navigateToTaskScreen : (Int) -> Unit
+    navigateToTaskScreen : (taskId : Int) -> Unit
 ){
     composable(
         route = LIST_SCREEN,

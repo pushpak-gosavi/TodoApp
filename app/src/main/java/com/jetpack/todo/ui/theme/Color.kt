@@ -19,6 +19,10 @@ val HighPriorityColor = Color(0xFFFF4646)
 val NonePriorityColor = Color(0xFFFFFFFF)
 
 
+val Colors.floatingButtonColor : Color
+@Composable
+get() = if(isLight) Teal200 else Purple700
+
 val Colors.topAppbarContentColor : Color
 @Composable
 get() = if(isLight) Color.White else LightGray
