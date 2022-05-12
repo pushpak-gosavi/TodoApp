@@ -3,4 +3,7 @@
     <string name="add_button">Add Button</string>
     <string name="default_list_appbar">Task</string>
     <string name="search_task">Search Task</string>
+    <string name="sort_tasks">Sort Tasks</string>
+    <string name="delete_all_tasks">Delete All Tasks</string>
+    <string name="delete_all">Delete All</string>
 </resources>
