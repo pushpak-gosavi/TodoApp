@@ -2,6 +2,7 @@ package com.example.to_docompose.components
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -39,12 +40,15 @@ fun PriorityDropdown(
     val angle : Float by animateFloatAsState(targetValue = if(expanded) 180f else 0f)
     Row(modifier = Modifier
         .fillMaxWidth()
+        .background(MaterialTheme.colors.background)
         .height(PRIORITY_DROPDOWN_HEIGHT)
         .clickable { expanded = true }
         .border(
             width = 1.dp,
-            color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+            color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
+        shape = MaterialTheme.shapes.small
         ),
+
         verticalAlignment = Alignment.CenterVertically) {
 
         Canvas(
@@ -73,7 +77,7 @@ fun PriorityDropdown(
         }
     }
     DropdownMenu(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(fraction = 0.94f),
         expanded = expanded,
         onDismissRequest = { expanded = false }) {
         DropdownMenuItem(onClick = {
