@@ -84,8 +84,12 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    fun updateTile(newTitle:String){
+    fun updateTitle(newTitle:String){
        if(newTitle.length < MAX_TITLE_LENGTH)
             title.value = newTitle
+    }
+
+    fun validateFields():Boolean{
+        return title.value.isNotEmpty() && description.value.isNotEmpty()
     }
 }

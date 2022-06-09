@@ -1,8 +1,11 @@
 package com.example.to_docompose.ui.screens.tasks
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import com.example.to_docompose.data.models.Priority
 import com.example.to_docompose.data.models.ToDoTask
 import com.example.to_docompose.ui.viewmodels.SharedViewModel
@@ -12,21 +15,32 @@ import com.example.to_docompose.util.Action
 fun TaskScreen(
     selectedTask: ToDoTask?,
     sharedViewModel: SharedViewModel,
-    navigateToTaskScreen: (Action) -> Unit
+    navigateToListScreen: (Action) -> Unit
 ) {
     val title:String by sharedViewModel.title
     val description:String by sharedViewModel.description
     val priority:Priority by sharedViewModel.priority
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
-            TaskAppBar(selectedTask = selectedTask, navigateToListScreen = navigateToTaskScreen)
+            TaskAppBar(selectedTask = selectedTask,
+                navigateToListScreen = { action ->
+                        if(Action.NO_ACTION == action)
+                            navigateToListScreen(action)
+                        else{
+                            if(sharedViewModel.validateFields())
+                                navigateToListScreen(action)
+                            else
+                                displayToast(context= context)
+                        }
+                })
         },
         content = {
             TaskContent(
                 title = title,
                 onTitleChange = {
-                    sharedViewModel.updateTile(it)
+                    sharedViewModel.updateTitle(it)
                 },
                 description = description,
                 onDescriptionChange = {
@@ -39,4 +53,7 @@ fun TaskScreen(
             )
         }
     )
+}
+fun displayToast(context: Context){
+    Toast.makeText(context,"Fields Empty.", Toast.LENGTH_SHORT).show()
 }
