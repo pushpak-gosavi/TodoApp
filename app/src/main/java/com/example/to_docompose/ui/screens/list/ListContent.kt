@@ -19,46 +19,76 @@ import com.example.to_docompose.data.models.Priority
 import com.example.to_docompose.data.models.ToDoTask
 import com.example.to_docompose.ui.theme.*
 import com.example.to_docompose.util.RequestState
+import com.example.to_docompose.util.SearchAppBarState
 
 @ExperimentalMaterialApi
 @Composable
 fun ListContent(
-    tasks : RequestState<List<ToDoTask>>,
-    navigateToTaskScreen : (taskId:Int) -> Unit
-){
-    if(tasks is RequestState.Success){
-        if(tasks.data.isEmpty())
-            EmptyContent()
-        else
-            DisplayTask(tasks = tasks.data, navigateToTaskScreen = navigateToTaskScreen)
+    tasks: RequestState<List<ToDoTask>>,
+    searchedTasks: RequestState<List<ToDoTask>>,
+    searchAppBarState: SearchAppBarState,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    if (searchAppBarState == SearchAppBarState.TRIGGERED) {
+        if (searchedTasks is RequestState.Success) {
+            HandledListContent(
+                tasks = searchedTasks.data,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
+    } else {
+        if (tasks is RequestState.Success) {
+            if (tasks.data.isEmpty())
+                EmptyContent()
+            else
+                DisplayTask(tasks = tasks.data, navigateToTaskScreen = navigateToTaskScreen)
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+fun HandledListContent(
+    tasks: List<ToDoTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    if (tasks.isEmpty()) {
+        EmptyContent()
+    } else {
+        DisplayTask(
+            tasks = tasks,
+            navigateToTaskScreen = navigateToTaskScreen
+        )
     }
 }
 
 @ExperimentalMaterialApi
 @Composable
 fun DisplayTask(
-    tasks : List<ToDoTask>,
-    navigateToTaskScreen : (taskId:Int) -> Unit
-){
-    LazyColumn{
+    tasks: List<ToDoTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    LazyColumn {
         items(
             items = tasks,
             key = { task ->
                 task.id
             }
-        ){ task -> TaskItem(
-            toDoTask = task,
-            navigateToTaskScreen = navigateToTaskScreen,
-        )
+        ) { task ->
+            TaskItem(
+                toDoTask = task,
+                navigateToTaskScreen = navigateToTaskScreen,
+            )
         }
     }
 }
+
 @ExperimentalMaterialApi
 @Composable
 fun TaskItem(
-    toDoTask : ToDoTask,
-    navigateToTaskScreen : (taskId:Int) -> Unit
-){
+    toDoTask: ToDoTask,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = MaterialTheme.colors.taskItemBackgroundColor,
@@ -68,25 +98,31 @@ fun TaskItem(
             navigateToTaskScreen(toDoTask.id)
         }
     ) {
-        Column (modifier = Modifier
-            .padding(all = LARGE_PADDING)
-            .fillMaxWidth()){
+        Column(
+            modifier = Modifier
+                .padding(all = LARGE_PADDING)
+                .fillMaxWidth()
+        ) {
             Row() {
                 Text(
-                   text = toDoTask.title,
-                   color= MaterialTheme.colors.taskItemTextColor,
-                   style = MaterialTheme.typography.h5,
-                   fontWeight =  FontWeight.Bold,
-                   maxLines = 1,
+                    text = toDoTask.title,
+                    color = MaterialTheme.colors.taskItemTextColor,
+                    style = MaterialTheme.typography.h5,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
                     modifier = Modifier.weight(8f),
                 )
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                    contentAlignment = Alignment.TopEnd){
-                    Canvas(modifier = Modifier
-                        .width(PRIORITY_INDICATOR_SIZE)
-                        .height(PRIORITY_INDICATOR_SIZE)){
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    contentAlignment = Alignment.TopEnd
+                ) {
+                    Canvas(
+                        modifier = Modifier
+                            .width(PRIORITY_INDICATOR_SIZE)
+                            .height(PRIORITY_INDICATOR_SIZE)
+                    ) {
                         drawCircle(
                             color = toDoTask.priority.color
                         )
@@ -99,7 +135,8 @@ fun TaskItem(
                 color = MaterialTheme.colors.taskItemTextColor,
                 style = MaterialTheme.typography.subtitle1,
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis)
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }
@@ -107,12 +144,12 @@ fun TaskItem(
 @ExperimentalMaterialApi
 @Composable
 @Preview
-fun TaskItemPreview(){
+fun TaskItemPreview() {
     TaskItem(toDoTask = ToDoTask(
         id = 0,
         title = "Title",
         description = "Some Random Text",
         priority = Priority.MEDIUM
-        ),
+    ),
         navigateToTaskScreen = {})
 }
