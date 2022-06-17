@@ -24,24 +24,35 @@ import com.example.to_docompose.util.SearchAppBarState
 @ExperimentalMaterialApi
 @Composable
 fun ListContent(
-    tasks: RequestState<List<ToDoTask>>,
+    allTasks: RequestState<List<ToDoTask>>,
     searchedTasks: RequestState<List<ToDoTask>>,
     searchAppBarState: SearchAppBarState,
-    navigateToTaskScreen: (taskId: Int) -> Unit
+    navigateToTaskScreen: (taskId: Int) -> Unit,
+    lowPriorityTasks: List<ToDoTask>,
+    highPriorityTasks: List<ToDoTask>,
+    sortState: RequestState<Priority>
 ) {
-    if (searchAppBarState == SearchAppBarState.TRIGGERED) {
-        if (searchedTasks is RequestState.Success) {
-            HandledListContent(
-                tasks = searchedTasks.data,
-                navigateToTaskScreen = navigateToTaskScreen
-            )
-        }
-    } else {
-        if (tasks is RequestState.Success) {
-            if (tasks.data.isEmpty())
-                EmptyContent()
-            else
-                DisplayTask(tasks = tasks.data, navigateToTaskScreen = navigateToTaskScreen)
+    if(sortState is RequestState.Success){
+        when{
+            searchAppBarState == SearchAppBarState.TRIGGERED -> {
+                if (searchedTasks is RequestState.Success) {
+                    HandledListContent(
+                        tasks = searchedTasks.data,
+                        navigateToTaskScreen = navigateToTaskScreen
+                    )
+                }
+            }
+            sortState.data == Priority.NONE -> {
+                if (allTasks is RequestState.Success) {
+                    HandledListContent(tasks = allTasks.data, navigateToTaskScreen = navigateToTaskScreen)
+                }
+            }
+            sortState.data == Priority.LOW ->{
+                HandledListContent(tasks = lowPriorityTasks, navigateToTaskScreen = navigateToTaskScreen)
+            }
+            sortState.data == Priority.HIGH -> {
+                HandledListContent(tasks = highPriorityTasks, navigateToTaskScreen = navigateToTaskScreen)
+            }
         }
     }
 }

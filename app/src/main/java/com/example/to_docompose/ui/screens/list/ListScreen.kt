@@ -1,6 +1,5 @@
 package com.example.to_docompose.ui.screens.list
 
-import android.util.Log
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -23,6 +22,7 @@ fun ListScreen(
     LaunchedEffect(key1 = true){
         //Log.d("list_screen", "Launched Effect Triggered")
         sharedViewModel.getAllTasks()
+        sharedViewModel.readSortState()
     }
 
     val action by sharedViewModel.action
@@ -32,6 +32,10 @@ fun ListScreen(
 //        }
 
     val searchedTasks by sharedViewModel.searchedTasks.collectAsState()
+    val sortState by sharedViewModel.sortState.collectAsState()
+    val lowPriorityTasks by sharedViewModel.lowPriorityTasks.collectAsState()
+    val highPriorityTasks by sharedViewModel.highPriorityTasks.collectAsState()
+
     val searchAppBarState: SearchAppBarState
             by sharedViewModel.searchAppBarState
     val searchTextState: String by sharedViewModel.searchTextState
@@ -57,10 +61,13 @@ fun ListScreen(
         },
         content = {
                   ListContent(
-                      tasks = allTasks,
+                      allTasks = allTasks,
                       navigateToTaskScreen = navigateToTaskScreen,
                       searchAppBarState = searchAppBarState,
-                      searchedTasks = searchedTasks
+                      searchedTasks = searchedTasks,
+                      lowPriorityTasks = lowPriorityTasks,
+                      highPriorityTasks = highPriorityTasks,
+                      sortState = sortState
                   )
         },
         floatingActionButton = {
