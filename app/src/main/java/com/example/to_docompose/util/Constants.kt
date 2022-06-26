@@ -7,7 +7,7 @@ object Constants {
 
     const val LIST_SCREEN = "list/{action}"
     const val TASK_SCREEN = "task/{taskId}"
-
+    const val SPLASH_SCREEN = "splash"
     const val LIST_ARGUMENT_KEY = "action"
     const val TASK_ARGUMENT_KEY = "taskId"
 
@@ -15,5 +15,6 @@ object Constants {
     const val PREFERENCE_KEY = "sort_state"
 
     const val MAX_TITLE_LENGTH = 20
+    const val SPLASH_SCREEN_DELAY= 3000L
 
 }
