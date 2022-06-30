@@ -1,12 +1,13 @@
 package com.example.to_docompose.navigation.destinations
 
 import android.util.Log
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.composable
 import androidx.navigation.compose.navArgument
 import com.example.to_docompose.ui.screens.tasks.TaskScreen
 import com.example.to_docompose.ui.viewmodels.SharedViewModel
@@ -14,6 +15,7 @@ import com.example.to_docompose.util.Action
 import com.example.to_docompose.util.Constants.TASK_ARGUMENT_KEY
 import com.example.to_docompose.util.Constants.TASK_SCREEN
 
+@ExperimentalAnimationApi
 fun NavGraphBuilder.taskComposable(
     navigateToListScreen: (Action) -> Unit,
     sharedViewModel: SharedViewModel
