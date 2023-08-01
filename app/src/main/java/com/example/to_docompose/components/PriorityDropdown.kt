@@ -37,7 +37,7 @@ fun PriorityDropdown(
     var expanded by remember {
         mutableStateOf(false)
     }
-    val angle : Float by animateFloatAsState(targetValue = if(expanded) 180f else 0f)
+    val angle: Float by animateFloatAsState(targetValue = if (expanded) 180f else 0f)
     Row(modifier = Modifier
         .fillMaxWidth()
         .background(MaterialTheme.colors.background)
@@ -46,9 +46,8 @@ fun PriorityDropdown(
         .border(
             width = 1.dp,
             color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
-        shape = MaterialTheme.shapes.small
+            shape = MaterialTheme.shapes.small
         ),
-
         verticalAlignment = Alignment.CenterVertically) {
 
         Canvas(
@@ -75,31 +74,32 @@ fun PriorityDropdown(
                 contentDescription = stringResource(id = R.string.drop_down_arrow)
             )
         }
-    }
-    DropdownMenu(
-        modifier = Modifier.fillMaxWidth(fraction = 0.94f),
-        expanded = expanded,
-        onDismissRequest = { expanded = false }) {
-        DropdownMenuItem(onClick = {
-            expanded = false
-            onPrioritySelected(Priority.LOW)
-        }) {
-            PriorityItem(priority = Priority.LOW)
-        }
-        DropdownMenuItem(onClick = {
-            expanded = false
-            onPrioritySelected(Priority.MEDIUM)
-        }) {
-            PriorityItem(priority = Priority.MEDIUM)
+
+        DropdownMenu(
+            modifier = Modifier.fillMaxWidth(fraction = 0.94f),
+            expanded = expanded,
+            onDismissRequest = { expanded = false }) {
+            DropdownMenuItem(onClick = {
+                expanded = false
+                onPrioritySelected(Priority.LOW)
+            }) {
+                PriorityItem(priority = Priority.LOW)
+            }
+            DropdownMenuItem(onClick = {
+                expanded = false
+                onPrioritySelected(Priority.MEDIUM)
+            }) {
+                PriorityItem(priority = Priority.MEDIUM)
+
+            }
+            DropdownMenuItem(onClick = {
+                expanded = false
+                onPrioritySelected(Priority.HIGH)
+            }) {
+                PriorityItem(priority = Priority.HIGH)
+            }
 
         }
-        DropdownMenuItem(onClick = {
-            expanded = false
-            onPrioritySelected(Priority.HIGH)
-        }) {
-            PriorityItem(priority = Priority.HIGH)
-        }
-
     }
 }
 
