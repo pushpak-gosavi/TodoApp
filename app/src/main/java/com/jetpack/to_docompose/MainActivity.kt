@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -48,7 +47,6 @@ class MainActivity : ComponentActivity() {
 
 // Returns an intent object that you use to check for an update.
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-
 // Checks that the platform will allow the specified type of update.
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
@@ -69,12 +67,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    var activityResultLauncher =
+    private var activityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result: ActivityResult ->
-            {
+            run {
                 // handle callback
                 if (result.resultCode != RESULT_OK) {
-                    Log.w("", "Update flow failed! Result code: " + result.resultCode);
+                    Log.w("App Update", "Update flow failed! Result code: " + result.resultCode)
                     // If the update is cancelled or fails,
                     // you can request to start the update again.
                 }
