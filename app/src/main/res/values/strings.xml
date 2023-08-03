@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">To-Do Compose</string>
+    <string name="app_name">To Do</string>
     <string name="list_screen_title">Tasks</string>
     <string name="search_place_holder">Search</string>
     <string name="search_icon">Search Icon</string>
